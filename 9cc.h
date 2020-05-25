@@ -9,8 +9,7 @@
 void error(char *fmt, ...);
 void error_at(char *loc, char *fmt, ...);
 
-
-// parse.c
+// tokenize.c
 typedef enum {
   TK_RESERVED,
   TK_NUM,
@@ -27,7 +26,12 @@ struct Token {
 };
 
 extern Token *token;
+Token *tokenize(char *p);
+bool consume(char *op);
+void expect(char *op);
+int expect_number();
 
+// parse.c
 typedef enum {
   ND_ADD,
   ND_SUB,
@@ -48,7 +52,6 @@ struct Node {
   int val;
 };
 
-Token *tokenize(char *p);
 Node *expr();
 
 
