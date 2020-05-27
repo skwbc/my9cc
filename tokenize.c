@@ -10,6 +10,15 @@ bool consume(char *op) {
   return true;
 }
 
+Token *consume_ident(void) {
+    if (token->kind != TK_IDENT) {
+        return NULL;
+    }
+    Token *ret = token;
+    token = token->next;
+    return ret;
+}
+
 void expect(char *op) {
   if (token->kind != TK_RESERVED || strlen(op) != token->len || memcmp(token->str, op, token->len)) {
     error_at(token->str, "\"%s\"ではありません", op);
@@ -23,6 +32,8 @@ int expect_number() {
   token = token->next;
   return val;
 }
+
+
 
 bool at_eof() {
   return token->kind == TK_EOF;
@@ -58,7 +69,12 @@ Token *tokenize(char *p) {
       continue;
     }
 
-    if (strchr("+-*/()<>", *p)) {
+    if ('a' <= *p && *p <= 'z') {
+      cur = new_token(TK_IDENT, cur, p++, 1);
+      continue;
+    }
+
+    if (strchr("+-*/()<>;=", *p)) {
       cur = new_token(TK_RESERVED, cur, p++, 1);
       continue;
     }
