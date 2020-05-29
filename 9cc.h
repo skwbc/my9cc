@@ -58,6 +58,14 @@ struct Node {
   int offset; // ローカル変数のベースポインタからのオフセット (kind が ND_LVAR の場合のみ使う)
 };
 
+typedef struct LVar LVar;
+struct LVar {
+  LVar *next;
+  char *name;
+  int len;
+  int offset;
+};
+extern LVar *locals;
 extern Node *code[100];
 void program();
 

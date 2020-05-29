@@ -6,13 +6,14 @@
     "configurations": [
 
 
+
         {
             "name": "debug 9cc",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/9cc",
             "args": ["a = 3; a;"],
-            "stopAtEntry": true,
+            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
