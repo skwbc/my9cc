@@ -45,9 +45,21 @@ void program() {
   code[i] = NULL;
 }
 
-// stmt = expr ";" | "return" expr ";"
+// stmt = expr ";" | "return" expr ";" | "if" "(" expr ")" stmt ("else" stmt)?
 Node *stmt() {
   Node *node;
+  if (consume_tokenkind(TK_IF)) {
+    expect("(");
+    node = calloc(1, sizeof(Node));
+    node->kind = ND_IF;
+    node->pred = expr();
+    expect(")");
+    node->lhs = stmt();
+    if (consume_tokenkind(TK_ELSE)) {
+      node->rhs = stmt();
+    }
+    return node;
+  }
 
   if (consume_tokenkind(TK_RETURN)) {
     node = calloc(1, sizeof(Node));

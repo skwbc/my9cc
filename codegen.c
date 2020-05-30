@@ -1,5 +1,7 @@
 #include "9cc.h"
 
+int label_count;
+
 void gen_lval(Node *node) {
   if (node->kind != ND_LVAR) {
     error("代入の左辺値が変数ではありません");
@@ -17,6 +19,27 @@ void gen(Node *node) {
     printf("  mov rsp, rbp\n");
     printf("  pop rbp\n");
     printf("  ret\n");
+    return;
+  }
+
+  if (node->kind == ND_IF) {
+    int local_label_count = label_count++;
+    gen(node->pred);
+    printf("  pop rax\n");
+    printf("  cmp rax, 0\n");
+    if (node->rhs) {
+      // else があるケース
+      printf("  je .Lelse%d\n", local_label_count);
+      gen(node->lhs);
+      printf("  jmp .Lend%d\n", local_label_count);
+      printf(".Lelse%d:\n", local_label_count);
+      gen(node->rhs);
+    } else {
+      // else がないケース
+      printf("  je .Lend%d\n", local_label_count);
+      gen(node->lhs);
+    }
+    printf(".Lend%d:\n", local_label_count);
     return;
   }
 

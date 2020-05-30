@@ -58,4 +58,12 @@ assert 3 "abc = 3; abc; return abc;"
 assert 22 "_a3 = 3; b = 5 * 6 - 8; return b; _a3 + b / 2;"
 assert 5 "hoge=3;fuga = 5 * 6 - 8; (hoge + fuga)/2; return 5;"
 
+assert 10 "if (1 < 10) 10; else 100;"
+assert 100 "if (1 > 10)10; else 100;"
+assert 10 "if(1 < 10) return 10; 12;"
+assert 12 "if (1 > 10) return 10; 12;"
+assert 3 "x=5; if (x < 10) if (1 < x) return 3;else return 8;else return 123;"
+assert 8 "x=0; if (x < 10) if (1 < x) return 3;else return 8;else return 123;"
+assert 123 "x=13; if (x < 10) if (1 < x) return 3;else return 8;else return 123;"
+
 echo OK

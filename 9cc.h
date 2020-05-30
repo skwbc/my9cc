@@ -13,6 +13,8 @@ void error_at(char *loc, char *fmt, ...);
 typedef enum {
   TK_RESERVED,
   TK_RETURN,
+  TK_IF,
+  TK_ELSE,
   TK_IDENT,
   TK_NUM,
   TK_EOF,
@@ -45,6 +47,7 @@ typedef enum {
   ND_ASSIGN,
   ND_LVAR, // local variable
   ND_RETURN,
+  ND_IF,
   ND_EQ,
   ND_NE,
   ND_LT,
@@ -55,6 +58,7 @@ typedef enum {
 typedef struct Node Node;
 struct Node {
   NodeKind kind;
+  Node *pred; // if, while, for などの条件部分
   Node *lhs;
   Node *rhs;
   int val;
