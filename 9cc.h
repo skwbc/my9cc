@@ -12,6 +12,7 @@ void error_at(char *loc, char *fmt, ...);
 // tokenize.c
 typedef enum {
   TK_RESERVED,
+  TK_RETURN,
   TK_IDENT,
   TK_NUM,
   TK_EOF,
@@ -29,6 +30,7 @@ struct Token {
 extern Token *token;
 Token *tokenize(char *p);
 bool consume(char *op);
+bool consume_tokenkind(TokenKind tk);
 Token *consume_ident();
 void expect(char *op);
 int expect_number();
@@ -42,6 +44,7 @@ typedef enum {
   ND_DIV,
   ND_ASSIGN,
   ND_LVAR, // local variable
+  ND_RETURN,
   ND_EQ,
   ND_NE,
   ND_LT,

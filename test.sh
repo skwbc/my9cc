@@ -54,4 +54,8 @@ assert 3 "abc = 3; abc;"
 assert 14 "_a3 = 3; b = 5 * 6 - 8; _a3 + b / 2;"
 assert 12 "hoge=3;fuga = 5 * 6 - 8; (hoge + fuga)/2;"
 
+assert 3 "abc = 3; abc; return abc;"
+assert 22 "_a3 = 3; b = 5 * 6 - 8; return b; _a3 + b / 2;"
+assert 5 "hoge=3;fuga = 5 * 6 - 8; (hoge + fuga)/2; return 5;"
+
 echo OK

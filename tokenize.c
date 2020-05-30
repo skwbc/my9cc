@@ -10,6 +10,14 @@ bool consume(char *op) {
   return true;
 }
 
+bool consume_tokenkind(TokenKind tk) {
+    if (token->kind != tk) {
+      return false;
+    }
+    token = token->next;
+    return true;
+}
+
 Token *consume_ident(void) {
     if (token->kind != TK_IDENT) {
         return NULL;
@@ -75,6 +83,17 @@ Token *tokenize(char *p) {
       continue;
     }
 
+    if (strchr("+-*/()<>;=", *p)) {
+      cur = new_token(TK_RESERVED, cur, p++, 1);
+      continue;
+    }
+
+    if (strncmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
+        cur = new_token(TK_RETURN, cur, p, 6);
+        p += 6;
+        continue;
+    }
+
     if (is_alpha(*p)) {
       char *q = p;
       while (q && is_alnum(*q)) {
@@ -83,11 +102,6 @@ Token *tokenize(char *p) {
       int len = q - p;
       cur = new_token(TK_IDENT, cur, p, len);
       p += len;
-      continue;
-    }
-
-    if (strchr("+-*/()<>;=", *p)) {
-      cur = new_token(TK_RESERVED, cur, p++, 1);
       continue;
     }
 

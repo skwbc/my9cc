@@ -12,7 +12,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/9cc",
-            "args": ["a = 3; a;"],
+            "args": ["abc = 3; abc; return abc;"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
