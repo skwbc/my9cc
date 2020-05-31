@@ -1,6 +1,9 @@
 #include "9cc.h"
 
-int label_count;
+static int get_label_count(void) {
+  static int i = 1;
+  return i++;
+}
 
 void gen_lval(Node *node) {
   if (node->kind != ND_LVAR) {
@@ -23,23 +26,23 @@ void gen(Node *node) {
   }
 
   if (node->kind == ND_IF) {
-    int local_label_count = label_count++;
+    int label_count = get_label_count();
     gen(node->pred);
     printf("  pop rax\n");
     printf("  cmp rax, 0\n");
     if (node->rhs) {
       // else があるケース
-      printf("  je .Lelse%d\n", local_label_count);
+      printf("  je .Lelse%d\n", label_count);
       gen(node->lhs);
-      printf("  jmp .Lend%d\n", local_label_count);
-      printf(".Lelse%d:\n", local_label_count);
+      printf("  jmp .Lend%d\n", label_count);
+      printf(".Lelse%d:\n", label_count);
       gen(node->rhs);
     } else {
       // else がないケース
-      printf("  je .Lend%d\n", local_label_count);
+      printf("  je .Lend%d\n", label_count);
       gen(node->lhs);
     }
-    printf(".Lend%d:\n", local_label_count);
+    printf(".Lend%d:\n", label_count);
     return;
   }
 
