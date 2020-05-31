@@ -25,6 +25,25 @@ LVar *find_lvar(Token *tok) {
   return NULL;
 }
 
+/* syntax
+program = stmt*
+stmt = expr ";"
+  | "return" expr ";"
+  | "if" "(" expr ")" stmt ("else" stmt)?
+  | "while" "(" expr ")" stmt
+  | "for" "(" expr? ";" expr? ";" expr? ")" stmt
+expr = assign
+assign = equality ("=" assign)?
+equality = relational ("==" relational | "!=" relational)*
+relational = add ("<" add | "<=" add | ">" add | ">=" add)*
+add = mul ("+" mul | "-" mul)
+mul = unary ("*" unary | "/" unary)*
+unary = ("+" | "-")? unary
+primary = num
+  | ident
+  | "(" expr ")"
+*/
+
 void program();
 Node *stmt();
 Node *expr();
@@ -170,7 +189,7 @@ Node *mul() {
   }
 }
 
-// unary = ("+" | "-")? primary
+// unary = ("+" | "-")? unary
 Node *unary() {
   if (consume("+")) return unary();
   if (consume("-")) return new_node(ND_SUB, new_node_num(0), unary());
