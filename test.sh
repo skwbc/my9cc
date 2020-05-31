@@ -66,4 +66,7 @@ assert 3 "x=5; if (x < 10) if (1 < x) return 3;else return 8;else return 123;"
 assert 8 "x=0; if (x < 10) if (1 < x) return 3;else return 8;else return 123;"
 assert 123 "x=13; if (x < 10) if (1 < x) return 3;else return 8;else return 123;"
 
+assert 10 "i = 0; while (i < 10) i = i + 1; i;"
+assert 0 "i = 0; while (i < 0) i = i + 1; i;"
+
 echo OK

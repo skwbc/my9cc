@@ -45,9 +45,15 @@ void program() {
   code[i] = NULL;
 }
 
-// stmt = expr ";" | "return" expr ";" | "if" "(" expr ")" stmt ("else" stmt)?
+/*
+stmt = expr ";"
+  | "return" expr ";"
+  | "if" "(" expr ")" stmt ("else" stmt)?
+  | "while" "(" expr ")" stmt
+*/
 Node *stmt() {
   Node *node;
+
   if (consume_tokenkind(TK_IF)) {
     expect("(");
     node = calloc(1, sizeof(Node));
@@ -58,6 +64,16 @@ Node *stmt() {
     if (consume_tokenkind(TK_ELSE)) {
       node->rhs = stmt();
     }
+    return node;
+  }
+
+  if (consume_tokenkind(TK_WHILE)) {
+    expect("(");
+    node = calloc(1, sizeof(Node));
+    node->kind = ND_WHILE;
+    node->pred = expr();
+    expect(")");
+    node->lhs = stmt();
     return node;
   }
 

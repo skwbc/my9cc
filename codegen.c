@@ -46,6 +46,19 @@ void gen(Node *node) {
     return;
   }
 
+  if (node->kind == ND_WHILE) {
+    int label_count = get_label_count();
+    printf(".Lbegin%d:\n", label_count);
+    gen(node->pred);
+    printf("  pop rax\n");
+    printf("  cmp rax, 0\n");
+    printf("  je .Lend%d\n", label_count);
+    gen(node->lhs);
+    printf("  jmp .Lbegin%d\n", label_count);
+    printf(".Lend%d:\n", label_count);
+    return;
+  }
+
   switch (node->kind) {
     case ND_NUM:
       printf("  push %d\n", node->val);
