@@ -16,6 +16,7 @@ typedef enum {
   TK_IF,
   TK_ELSE,
   TK_WHILE,
+  TK_FOR,
   TK_IDENT,
   TK_NUM,
   TK_EOF,
@@ -50,6 +51,7 @@ typedef enum {
   ND_RETURN,
   ND_IF,
   ND_WHILE,
+  ND_FOR,
   ND_EQ,
   ND_NE,
   ND_LT,
@@ -60,7 +62,9 @@ typedef enum {
 typedef struct Node Node;
 struct Node {
   NodeKind kind;
+  Node *init; // for の初期化部分
   Node *pred; // if, while, for などの条件部分
+  Node *update; // for の更新部分
   Node *lhs;
   Node *rhs;
   int val;

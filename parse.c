@@ -50,6 +50,7 @@ stmt = expr ";"
   | "return" expr ";"
   | "if" "(" expr ")" stmt ("else" stmt)?
   | "while" "(" expr ")" stmt
+  | "for" "(" expr? ";" expr? ";" expr? ")" stmt
 */
 Node *stmt() {
   Node *node;
@@ -73,6 +74,26 @@ Node *stmt() {
     node->kind = ND_WHILE;
     node->pred = expr();
     expect(")");
+    node->lhs = stmt();
+    return node;
+  }
+
+  if (consume_tokenkind(TK_FOR)) {
+    expect("(");
+    node = calloc(1, sizeof(Node));
+    node->kind = ND_FOR;
+    if (!consume(";")) {
+      node->init = expr();
+      expect(";");
+    }
+    if (!consume(";")) {
+      node->pred = expr();
+      expect(";");
+    }
+    if (!consume(")")) {
+      node->update = expr();
+      expect(")");
+    }
     node->lhs = stmt();
     return node;
   }

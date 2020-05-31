@@ -69,4 +69,9 @@ assert 123 "x=13; if (x < 10) if (1 < x) return 3;else return 8;else return 123;
 assert 10 "i = 0; while (i < 10) i = i + 1; i;"
 assert 0 "i = 0; while (i < 0) i = i + 1; i;"
 
+assert 1 "for (;;) return 1;"
+assert 2 "for (i = 0; i < 3; i = i + 1) i; i - 1;"
+assert 3 "i = -2; for (; i < 3; i = i + 1) i; i;"
+assert 4 "for (i = 0; ; i = i + 1) if (i == 2) return i * i;"
+
 echo OK

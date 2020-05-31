@@ -4,15 +4,12 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
-
-
         {
             "name": "debug 9cc",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/9cc",
-            "args": ["i = 0; while (i < 10) i = i + 1; i;"],
+            "args": ["1 ;"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
