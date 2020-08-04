@@ -73,5 +73,6 @@ assert 1 "for (;;) return 1;"
 assert 2 "for (i = 0; i < 3; i = i + 1) i; i - 1;"
 assert 3 "i = -2; for (; i < 3; i = i + 1) i; i;"
 assert 4 "for (i = 0; ; i = i + 1) if (i == 2) return i * i;"
+#assert 0 "for (i = 0; i < 5; i = i + 1) i;"
 
 echo OK
